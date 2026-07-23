@@ -1,78 +1,108 @@
 ---
 name: publica-tu-web
-description: Publish the attendee's website live on Vercel and celebrate the moment. Use this skill when the user wants to deploy, publish, upload, or put their site online, or when they say "publicar", "subir mi pagina", "ponerla en internet", "deploy", "vercel", or ask for a public URL or QR code of their site. Also trigger when the user says "ya termine mi pagina" or asks "como la comparto". This is the grand finale of the workshop -- it takes the locally running Next.js site and makes it live on the internet.
+description: >-
+  Publica la web del asistente en Vercel y muestra un QR para escanear con el
+  móvil. Usa esta skill siempre que el usuario quiera publicar, subir, desplegar
+  o poner su página en internet, o diga cualquier variante: "publica mi página",
+  "súbela a internet", "quiero mi link", "cómo la comparto", "ya terminé mi
+  página", "ponla en línea", "deploy", "vercel", "dame mi URL", "quiero
+  enseñarla", "quiero compartirla", "subir mi página", "ponerla en internet",
+  "hacerla pública", "cómo la publico", "sácala en vivo".
 ---
 
 # Publica tu web
 
-Esta skill guia al asistente paso a paso para publicar su sitio en internet usando Vercel. Al terminar, tendra una URL publica que puede abrir en su telefono con un codigo QR.
+> **Contexto — lee esto antes de ejecutar nada.**
+>
+> Este es el paso 4 del taller, el gran final: la página del dueño de negocio
+> sale EN VIVO y la escanea con su teléfono frente al grupo. Todo el taller se
+> construyó para llegar a este momento. Un deploy atascado frente al salón es
+> el peor fallo posible, así que cada paso lleva su ruta de recuperación lista.
+> No dejes al asistente esperando sin saber qué pasa — narra cada etapa en
+> español sencillo y anticípate a los problemas antes de que ocurran.
 
-Toda la comunicacion con el asistente es en espanol claro. Si un termino tecnico es inevitable, explicalo en una frase sencilla.
+Toda la comunicación con el asistente es en español claro. Si un término
+técnico es inevitable, explícalo en una frase sencilla. No menciones GitHub,
+GitLab ni ningún servicio de repositorios — el flujo es solo con correo
+electrónico.
 
 ---
 
 ## Paso 0 — Verificar que el sitio compila
 
-Antes de publicar, el sitio tiene que funcionar sin errores. Ejecuta:
+Ejecuta el build ANTES de cualquier otra cosa. Hazlo primero porque si
+intentas hacer login antes y el build falla después, habrás quemado la
+ventana de autenticación — el token de Vercel puede expirar mientras arreglas
+errores de compilación, y tendrás que repetir el login frente al salón.
 
 ```bash
 npm run build
 ```
 
-### Si el build falla
+Dile al asistente:
+
+> "Estoy revisando que tu página esté lista para publicar. Dame un momento..."
+
+### Si pasa: el build falla
+
+No avances hasta resolverlo. Un deploy con errores de build va a fallar en
+el servidor de Vercel y la espera será más larga y frustrante.
 
 1. Lee el mensaje de error completo.
 2. Arregla el problema (errores de TypeScript, imports rotos, archivos faltantes).
 3. Vuelve a correr `npm run build`.
-4. Repite hasta que el build pase limpio.
+4. Repite hasta que el build pase limpio (exit code 0).
 
-Dile al asistente algo como:
+Si tuviste que arreglar algo, dile:
 
-> "Estoy revisando que tu pagina este lista para publicar. Dame un momento..."
+> "Había un detallito que arreglé. Ya está listo."
 
-Si tuviste que arreglar algo:
-
-> "Habia un detallito que arregle. Ya esta listo."
-
-No continuar al paso siguiente hasta que `npm run build` termine con exito (exit code 0).
+**No continúes al paso siguiente hasta que `npm run build` termine con éxito.**
 
 ---
 
-## Paso 1 — Instalar Vercel CLI
+## Paso 1 — Instalar Vercel CLI (solo si falta)
 
-Verifica si Vercel CLI esta instalado:
-
-```bash
-npx --yes vercel --version
-```
-
-Si no esta instalado o el comando falla, instalalo:
+Instala globalmente solo si no está disponible. Verifica primero:
 
 ```bash
-npm install -g vercel
+vercel --version
 ```
 
-Si `npm install -g` falla por permisos, intenta:
+Si pasa -> ya está instalado, salta al Paso 2.
+
+Si falla -> instálalo:
 
 ```bash
-npx --yes vercel --version
+npm i -g vercel
 ```
 
-Usar `npx vercel` como alternativa funciona sin instalacion global. Si se va por esta via, todos los comandos `vercel` del resto de esta skill se ejecutan como `npx vercel` en su lugar.
+### Si pasa: npm i -g falla por permisos
+
+Usa `npx --yes vercel` como alternativa. Si tomas esta vía, sustituye
+`vercel` por `npx --yes vercel` en **todos** los comandos del resto de
+esta skill y mantén esa forma consistente.
 
 ---
 
-## Paso 2 — Iniciar sesion en Vercel
+## Paso 2 — Iniciar sesión en Vercel (por email)
 
-Este paso requiere la participacion del asistente. Explicale exactamente lo que va a pasar ANTES de ejecutar el comando.
+Este paso requiere la participación del asistente. Usa login por email —
+es la ÚNICA forma válida. Los asistentes del taller no tienen cuenta de
+GitHub ni tokens de API. Explícale exactamente qué va a pasar ANTES de
+ejecutar el comando para que no se sorprenda.
 
 Dile al asistente:
 
-> "Ahora vamos a conectarnos a Vercel, que es el servicio donde va a vivir tu pagina. Necesito tu correo electronico -- el mismo que usaste para crear tu cuenta de Vercel."
+> "Ahora vamos a conectarnos a Vercel, que es el servicio donde va a vivir tu
+> página. Necesito tu correo electrónico — el mismo que usaste para crear tu
+> cuenta de Vercel."
 
 Espera a que el asistente proporcione su email. Luego:
 
-> "Perfecto. Voy a correr un comando y Vercel te va a enviar un correo de confirmacion. Cuando te llegue, solo tienes que hacer clic en el boton que dice 'Verify' o 'Confirmar'. Nada mas."
+> "Perfecto. Voy a correr un comando y Vercel te va a enviar un correo de
+> confirmación. Cuando te llegue, solo tienes que hacer clic en el botón que
+> dice 'Verify' o 'Confirmar'. Nada más."
 
 Ejecuta:
 
@@ -80,31 +110,40 @@ Ejecuta:
 vercel login EMAIL_DEL_ASISTENTE
 ```
 
-**IMPORTANTE para la IA:** ejecuta este comando con un timeout extendido de 300000 milisegundos (5 minutos). El asistente necesita tiempo para abrir su correo, buscar el mensaje de Vercel (puede estar en spam) y hacer clic en el enlace de verificacion. El timeout por defecto de 2 minutos no es suficiente.
+Donde `EMAIL_DEL_ASISTENTE` es el correo que proporcionó.
 
-Donde `EMAIL_DEL_ASISTENTE` es el correo que proporciono.
+**CRÍTICO:** ejecuta este comando con un timeout de **300000 milisegundos
+(5 minutos)**. El asistente necesita físicamente caminar a revisar su correo
+en su teléfono, buscar el mensaje de Vercel (puede estar en spam), abrirlo y
+hacer clic en el enlace de verificación. El timeout por defecto de 2 minutos
+lo matará a mitad de proceso y tendrás que repetir frente a todo el salón.
 
-### Que va a pasar
+### Qué va a pasar
 
 1. La terminal muestra un mensaje pidiendo que revise su correo.
-2. Vercel envia un email con un boton de verificacion.
-3. El asistente hace clic en el boton desde su correo (en su telefono o laptop).
-4. La terminal detecta la verificacion y muestra un mensaje de exito.
+2. Vercel envía un email con un botón de verificación.
+3. El asistente hace clic en el botón desde su correo (en su teléfono o laptop).
+4. La terminal detecta la verificación y muestra un mensaje de éxito.
 
-### Errores comunes en el login
+### Si pasa: el correo no llega
 
-**El correo no llega:**
-> "A veces tarda un par de minutos. Revisa tambien la carpeta de spam o correo no deseado. Si no llega en 3 minutos, lo intentamos de nuevo."
+> "A veces tarda un par de minutos. Revisa también la carpeta de spam o correo
+> no deseado. Si no llega en 3 minutos, lo intentamos de nuevo."
 
 Reintenta el comando si es necesario.
 
-**El login expira (timeout):**
-> "Se paso el tiempo. No te preocupes, lo intentamos otra vez."
+### Si pasa: el login expira (timeout)
 
-Vuelve a ejecutar `vercel login`.
+> "Se pasó el tiempo. No te preocupes, lo intentamos otra vez."
 
-**El asistente no tiene cuenta de Vercel:**
-> "Necesitas una cuenta gratuita de Vercel. Ve a vercel.com, haz clic en 'Sign Up', elige 'Continue with Email', pon tu correo y sigue los pasos. Es gratis y toma un minuto."
+Vuelve a ejecutar `vercel login EMAIL_DEL_ASISTENTE` con el mismo timeout
+de 300000ms.
+
+### Si pasa: el asistente no tiene cuenta de Vercel
+
+> "Necesitas una cuenta gratuita de Vercel. Ve a vercel.com, haz clic en
+> 'Sign Up', elige 'Continue with Email', pon tu correo y sigue los pasos.
+> Es gratis y toma un minuto."
 
 Espera a que termine y reintenta el login.
 
@@ -114,85 +153,126 @@ Espera a que termine y reintenta el login.
 
 Dile al asistente:
 
-> "Ya casi! Ahora voy a subir tu pagina a internet. Esto puede tomar entre 1 y 3 minutos dependiendo de la velocidad del internet."
+> "¡Ya casi! Ahora voy a subir tu página a internet. Esto puede tomar entre
+> 1 y 3 minutos dependiendo de la velocidad del internet."
 
-Ejecuta el deploy desde el directorio raiz del proyecto:
+Ejecuta el deploy desde el directorio raíz del proyecto:
 
 ```bash
-vercel --yes --prod
+vercel --prod --yes
 ```
 
-El flag `--yes` acepta las preguntas de configuracion automaticamente. Vercel auto-detecta que es un proyecto Next.js y configura todo solo.
+El flag `--yes` acepta todas las preguntas de configuración automáticamente:
+crea un proyecto nuevo bajo la cuenta del asistente, acepta el nombre de la
+carpeta como nombre del proyecto, y configura el directorio sin hacer ninguna
+pregunta interactiva. Vercel auto-detecta que es un proyecto Next.js y lo
+configura todo solo.
 
-### Si es la primera vez (proyecto nuevo en Vercel)
+### Si pasa: el comando parece colgado (sin salida por más de 60 segundos)
 
-El flag `--yes` se encarga de toda la configuracion automaticamente: crea un proyecto nuevo bajo la cuenta del asistente, acepta el nombre de la carpeta como nombre del proyecto, y configura el directorio sin hacer ninguna pregunta interactiva. No aparecera ningun prompt.
-
-**Si el comando parece colgado** (sin producir salida por mas de 60 segundos), matalo y ejecuta estos dos comandos por separado:
+Mátalo y ejecuta estos dos comandos por separado. `vercel link` pre-configura
+el proyecto de forma aislada, lo que desbloquea el deploy posterior:
 
 ```bash
 vercel link --yes
 ```
 
-Esto pre-configura el proyecto. Luego reintenta el deploy:
+Luego reintenta el deploy:
 
 ```bash
-vercel --yes --prod
+vercel --prod --yes
 ```
 
-### Errores comunes en el deploy
+### Si pasa: el build falla en el servidor de Vercel
 
-**Build falla en el servidor de Vercel:**
-El build local paso pero el remoto fallo. Causa comun: dependencias que faltan o variables de entorno. Lee el log de error de Vercel, arregla el problema localmente, vuelve a correr `npm run build` para confirmar, y reintenta `vercel --yes --prod`.
+El build local pasó pero el remoto falló. Causa común: dependencias que
+faltan o variables de entorno. Lee el log de error de Vercel, arregla el
+problema localmente, vuelve a correr `npm run build` para confirmar, y
+reintenta `vercel --prod --yes`.
 
-**Red lenta o timeout:**
-> "El internet esta un poco lento. Voy a intentar de nuevo."
+### Si pasa: red lenta o timeout
 
-Reintenta el comando. Si sigue fallando despues de 3 intentos:
-> "Parece que el internet no esta cooperando ahorita. Tu pagina esta lista en tu computadora -- cuando tengas mejor conexion, abre tu terminal, ve a la carpeta de tu proyecto, y escribe `vercel --prod`. Con eso se publica."
+> "El internet está un poco lento. Voy a intentar de nuevo."
 
-**Error de autenticacion:**
-Si el token expiro entre el login y el deploy, reintenta el login (Paso 2).
+Reintenta el comando. Si sigue fallando después de 3 intentos:
+
+> "Parece que el internet no está cooperando ahorita. Tu página está lista en
+> tu computadora — cuando tengas mejor conexión, abre tu terminal, ve a la
+> carpeta de tu proyecto, y escribe `vercel --prod`. Con eso se publica."
+
+### Si pasa: error de autenticación
+
+Si el token expiró entre el login y el deploy, regresa al Paso 2 y repite
+el login.
 
 ---
 
-## Paso 4 — Capturar la URL y mostrar el QR
+## Paso 4 — Mostrar el QR y la URL
 
-Cuando el deploy termine con exito, Vercel muestra la URL de produccion en la salida del comando. Captura esa URL (tiene el formato `https://nombre-del-proyecto.vercel.app`).
+Cuando el deploy termine con éxito, Vercel muestra la URL de producción en
+la salida del comando. Captura esa URL (tiene el formato
+`https://nombre-del-proyecto.vercel.app`).
 
-Muestra el codigo QR en la terminal para que el asistente lo escanee con su telefono:
+Muestra el código QR en la terminal. Usa la forma por stdin — la forma con
+argumento posicional silenciosamente no produce nada:
 
 ```bash
 echo "URL_PUBLICA" | npx --yes qrcode-terminal
 ```
 
+### Si pasa: qrcode-terminal no funciona
+
+Usa esta alternativa (también con `--yes` para evitar prompts de npx):
+
+```bash
+npx --yes qrcode "URL_PUBLICA"
+```
+
+Si ninguna funciona, muestra la URL en texto grande y dile al asistente
+que la escriba en su teléfono.
+
 Dile al asistente:
 
-> "Tu pagina ya esta EN VIVO en internet! Esta es tu direccion:"
+> "¡Tu página ya está EN VIVO en internet! Esta es tu dirección:"
 >
 > **URL_PUBLICA**
 >
-> "Abre la camara de tu telefono y apuntala al codigo QR de la pantalla. Te va a llevar directo a tu pagina. Ensenaselaa a quien quieras -- es tuya!"
+> "Abre la cámara de tu teléfono y apúntala al código QR de la pantalla. Te va
+> a llevar directo a tu página. ¡Enséñasela a quien quieras — es tuya!"
 
 ---
 
-## Paso 5 — Celebrar y proximos pasos
+## Paso 5 — Celebrar y cerrar
 
-Este es el momento culminante del taller. Dale su espacio. Despues, dile:
+Este es el momento culminante del taller. Dale su espacio al asistente para
+que lo disfrute. Después, cierra con el mensaje final. Usa esta plantilla:
 
-> "Felicidades! Tu pagina ya esta en internet y cualquier persona en el mundo puede verla. Aqui van tres cosas importantes:"
+### Usa esta plantilla
+
+> "¡Felicidades! Tu página ya está en internet y cualquier persona en el mundo
+> puede verla."
 >
-> "1. **La URL es tuya.** Guardala -- es la direccion de tu pagina: URL_PUBLICA"
+> "Tu dirección es: **URL_PUBLICA**"
 >
-> "2. **Para publicar cambios** que hagas despues, abre la terminal en la carpeta de tu proyecto y escribe `vercel --prod`. En un par de minutos tu pagina se actualiza."
+> "Tres cosas importantes:"
 >
-> "3. **Dominio propio** (opcional): si quieres que tu pagina se llame algo como `www.tunegocio.com` en vez de `tunegocio.vercel.app`, puedes comprar un dominio y conectarlo desde tu cuenta de Vercel. Eso lo puedes hacer despues con calma."
+> "1. **La URL es tuya.** Guárdala — es la dirección permanente de tu página:
+> URL_PUBLICA"
+>
+> "2. **Para publicar cambios** que hagas después, abre la terminal en la
+> carpeta de tu proyecto y escribe `vercel --prod`. En un par de minutos tu
+> página se actualiza."
+>
+> "3. **Dominio propio** (opcional): si quieres que tu página se llame algo
+> como `www.tunegocio.com` en vez de `tunegocio.vercel.app`, puedes comprar un
+> dominio y conectarlo desde tu cuenta de Vercel. Eso lo puedes hacer después
+> con calma."
 
 ---
 
-## Resumen de comandos
+## Referencia rápida para republicar
 
-Para referencia rapida si el asistente necesita republicar despues del taller:
+Para el asistente que quiera republicar cambios después del taller:
 
 ```bash
 # 1. Ir a la carpeta del proyecto
@@ -207,13 +287,13 @@ vercel --prod
 
 ---
 
-## Notas tecnicas (para la IA, no para el asistente)
+## Notas técnicas (para el agente, no para el asistente)
 
 - Todos los comandos usan `npm`, nunca `pnpm`, `bun` ni `yarn`.
 - El deploy es directo desde el directorio local, sin necesidad de un repositorio git.
-- `vercel --yes --prod` evita prompts interactivos en la mayoria de los casos.
-- Si `npx vercel` se usa en lugar de `vercel` global, mantener esa forma en todos los pasos.
-- El proyecto es Next.js con rendering por defecto (server) -- Vercel lo detecta como proyecto Next.js y lo despliega con zero-config.
-- No mencionar GitHub, GitLab ni ningun servicio de repositorios al asistente. El flujo es email puro.
+- `vercel --prod --yes` evita prompts interactivos.
+- Si `npx vercel` se usa en lugar de `vercel` global, mantén esa forma en todos los pasos.
+- El proyecto es Next.js — Vercel lo detecta y lo despliega con zero-config.
+- No mencionar GitHub, GitLab ni ningún servicio de repositorios al asistente. El flujo es email puro.
 - Si el asistente pregunta por costos: el plan gratuito de Vercel es suficiente para una landing page. No se cobra nada extra.
-- Si `echo URL | npx --yes qrcode-terminal` no funciona (raro), usa como alternativa: `npx --yes qrcode "URL_PUBLICA"` o simplemente muestra la URL en texto grande.
+- Usa `--yes` en todas las invocaciones de `npx` para evitar prompts de confirmación.

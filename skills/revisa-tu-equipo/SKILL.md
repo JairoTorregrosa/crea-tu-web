@@ -1,26 +1,46 @@
 ---
 name: revisa-tu-equipo
-description: "Diagnostica y repara el equipo del asistente antes de construir su pagina web. Verifica Node.js, npm, conexion a internet, que el agente CLI este funcionando, y guia la creacion de una cuenta gratuita de Vercel. Usa esta skill SIEMPRE que el usuario diga 'revisa mi equipo', 'prepara mi equipo', 'tengo todo lo necesario?', 'antes de empezar', 'verificar requisitos', 'setup', 'mi laptop esta lista?', o cualquier variante que indique que quiere confirmar que su entorno esta listo para el taller. Es el paso 0 obligatorio -- debe ejecutarse antes de cualquier otra skill del kit crea-tu-web."
+description: "Diagnostica y repara el equipo del asistente antes de construir su página web. Verifica Node.js, npm, conexión a internet, que el agente CLI esté funcionando, y guía la creación de una cuenta gratuita de Vercel. Usa esta skill SIEMPRE que el usuario diga 'revisa mi equipo', 'prepara mi equipo', '¿tengo todo lo necesario?', 'antes de empezar', 'verificar requisitos', 'setup', '¿mi laptop está lista?', o cualquier variante que indique que quiere confirmar que su entorno está listo para el taller. Es el paso 0 obligatorio -- debe ejecutarse antes de cualquier otra skill del kit crea-tu-web."
 ---
 
 # Revisa tu equipo
 
-Eres el asistente técnico de un taller presencial para personas NO técnicas.
-Tu trabajo es verificar que la laptop del asistente tiene todo lo necesario
-para construir y publicar una página web. Habla siempre en español simple.
-Si un término técnico es inevitable, explícalo en una frase entre paréntesis.
+## Contexto
 
-Esta skill es **idempotente**: ejecutarla dos veces no rompe nada. Cada paso
-verifica el estado actual antes de actuar. Si todo ya está bien, simplemente
-lo confirma.
+El usuario es un pequeño empresario hispanohablante sin experiencia técnica.
+Está en un taller presencial de 2 horas donde construirá y publicará su
+página web desde cero. Este es el **paso 0** del kit de 5 skills:
+
+1. **revisa-tu-equipo** (esta skill)
+2. crea-tu-web
+3. diseña-tu-marca
+4. planea-tu-web
+5. publica-tu-web
+
+**Éxito** significa que al terminar esta skill el equipo tiene Node.js,
+npm, conexión a internet confirmada contra los servicios reales, el agente
+CLI funcionando, y una cuenta de Vercel creada, de modo que las cuatro
+skills siguientes puedan ejecutarse sin interrupciones técnicas.
+
+## Instrucciones para el agente
+
+Habla siempre en español simple. Si un término técnico es inevitable,
+explícalo en una frase entre paréntesis.
+
+Esta skill es **idempotente**: ejecutarla dos veces no rompe nada. Cada
+paso verifica el estado actual antes de actuar. Si todo ya está bien,
+simplemente lo confirma.
 
 ---
 
 ## Procedimiento
 
 Ejecuta los pasos en este orden exacto. No saltes ninguno. Si un paso falla
-y no puedes repararlo automáticamente, DETENTE y reporta al usuario exactamente
-qué falta y cuál es la acción que debe tomar — nunca continúes en silencio.
+y no puedes repararlo automáticamente, detente y reporta al usuario
+exactamente qué falta y cuál es la acción que debe tomar. No continúes en
+silencio porque una falla silenciada aquí reaparece después como un error
+inexplicable a mitad del taller, lejos del punto donde se originó, y el
+usuario no tendrá forma de diagnosticarlo.
 
 ### Paso 1 — Detectar sistema operativo y agente
 
@@ -30,9 +50,9 @@ o la variable de entorno `OS` en Windows). Registra internamente:
 - `AGENTE`: el nombre del agente CLI que está ejecutando esta skill (Claude Code
   o Codex CLI — tú ya sabes cuál eres)
 
-**Nota sobre Windows (probable en este taller):** tanto Claude Code como
+Notas sobre Windows (probable en este taller): tanto Claude Code como
 Codex corren de forma nativa en Windows y ejecutan comandos en **PowerShell**,
-no en bash. En Windows usa SIEMPRE las variantes PowerShell de cada paso.
+no en bash. En Windows usa las variantes PowerShell de cada paso.
 Todos los comandos PowerShell de esta skill funcionan en Windows PowerShell
 5.1 (el que viene preinstalado) — no requieren PowerShell 7. Si `uname`
 falla con "no se reconoce", estás en PowerShell: confírmalo con `$env:OS`
@@ -46,8 +66,9 @@ Muestra al usuario:
 ### Paso 2 — Verificar conexión a internet
 
 No basta con hacer ping a google.com — en talleres presenciales el wifi del
-lugar puede tener un portal cautivo que responde a todo pero bloquea tráfico
-real. Prueba los tres endpoints que realmente necesitamos.
+lugar puede tener un portal cautivo (una página de login del wifi que
+responde a todo pero bloquea tráfico real). Prueba los tres endpoints que
+realmente necesitamos.
 
 #### macOS / Linux
 
@@ -72,7 +93,7 @@ try { (Invoke-WebRequest -Uri "https://api.anthropic.com/" -Method Head -Timeout
 Mismos criterios de éxito. Si el agente es Codex, usa `https://api.openai.com/`
 en la tercera prueba (con el mismo patrón try/catch).
 
-**Si alguno falla:**
+Si alguno falla:
 
 > "No pude conectarme a [nombre del servicio]. Esto suele pasar cuando el wifi
 > del lugar bloquea algunas páginas. Opciones:
@@ -87,12 +108,11 @@ Espera a que el usuario confirme y repite la verificación.
 
 Ejecuta `node -v` (sin interactividad, sin flags adicionales).
 
-**Si Node.js está instalado y la versión es >= 20.9:** confirma y sigue.
+Si Node.js está instalado y la versión es >= 20.9, confirma y sigue.
 
-**Si Node.js no está instalado o la versión es menor a 20.9:**
-
-Según el SO detectado, intenta instalar Node.js de forma no interactiva y
-sin necesitar permisos de administrador:
+Si Node.js no está instalado o la versión es menor a 20.9, intenta
+instalarlo de forma no interactiva y sin necesitar permisos de administrador
+según el SO detectado:
 
 #### macOS
 
@@ -121,7 +141,7 @@ fnm use 22
 
 **Intento 1 — winget (automático, viene con Windows 10/11 moderno):**
 
-Primero avisa al usuario:
+Primero avisa al usuario, porque Windows mostrará un diálogo de permisos:
 
 > "Voy a instalar Node.js. En unos segundos Windows te va a mostrar una
 > ventana preguntando si permites el cambio (dice 'Control de cuentas de
@@ -133,16 +153,16 @@ Luego ejecuta:
 winget install -e --id OpenJS.NodeJS.LTS --accept-source-agreements --accept-package-agreements
 ```
 
-**Después de instalar, la terminal actual NO ve el nuevo PATH.** Refréscalo
-en la misma sesión (funciona en PowerShell 5.1 y 7) y verifica:
+Después de instalar, la terminal actual no ve el nuevo PATH. Refréscalo
+en la misma sesión (funciona en PowerShell 5.1 y 7) y verifica. Esto evita
+tener que reiniciar la terminal o la aplicación del agente:
 
 ```powershell
 $env:Path = [Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [Environment]::GetEnvironmentVariable('Path','User')
 node -v
 ```
 
-Si `node -v` responde con la versión, sigue al Paso 4 — no hace falta
-reiniciar nada.
+Si `node -v` responde con la versión, sigue al Paso 4.
 
 **Intento 2 — si winget no existe o falla** (Windows viejo, tienda
 deshabilitada, o el usuario le dio "No" al permiso), guíalo por el navegador:
@@ -156,13 +176,12 @@ deshabilitada, o el usuario le dio "No" al permiso), guíalo por el navegador:
 
 Cuando diga "listo", refresca el PATH con el comando de arriba y verifica
 `node -v`. Solo si aún no aparece, pídele cerrar y reabrir la aplicación
-del agente (Claude Code / Codex) — no basta con abrir otra ventana del
-navegador.
+del agente (Claude Code / Codex).
 
-**Después de instalar — SOLO macOS / Linux (IMPORTANTE):** cada llamada a
-Bash abre un shell nuevo, así que Node recién instalado vía fnm/nvm puede
-no estar en el PATH. (En Windows NO ejecutes este bloque — el refresco de
-PATH de Windows ya está en el Intento 1 de arriba.) Verifica con:
+**Después de instalar — SOLO macOS / Linux:** cada llamada a Bash abre un
+shell nuevo, así que Node recién instalado vía fnm/nvm puede no estar en el
+PATH. En Windows no ejecutes este bloque — el refresco de PATH de Windows
+ya está cubierto en el Intento 1 de arriba. Verifica con:
 
 ```bash
 source ~/.bashrc 2>/dev/null; source ~/.zshrc 2>/dev/null; source ~/.profile 2>/dev/null
@@ -179,7 +198,7 @@ Si aún no lo encuentra, dile al usuario:
 Ejecuta `npm -v`. npm viene incluido con Node.js, así que si el paso 3 pasó
 bien, este también debería pasar.
 
-**Caso especial Windows — "running scripts is disabled":** si `npm -v` o
+Caso especial Windows — "running scripts is disabled": si `npm -v` o
 `npx` fallan con un error tipo *"npm.ps1 cannot be loaded because running
 scripts is disabled on this system"* (o en español, *"no se puede cargar
 porque la ejecución de scripts está deshabilitada"*), es la política de
@@ -193,11 +212,15 @@ npm -v
 
 Explícale al usuario en una frase: "Windows bloqueaba los comandos de npm
 por seguridad; acabo de dar permiso solo para tu usuario — es seguro y
-reversible." OJO: en laptops de empresa el comando puede "funcionar" sin
-error pero la política corporativa sigue bloqueando — la prueba real es
-`npm -v`. Si después de ejecutarlo `npm -v` sigue dando el mismo error de
-scripts deshabilitados, usa las variantes `.cmd` en TODO el taller:
-`npm.cmd`, `npx.cmd` (funcionan igual).
+reversible."
+
+Caveat de GPO: en laptops de empresa el comando puede "funcionar" sin
+error pero la política corporativa sigue bloqueando. La prueba real es que
+`npm -v` devuelva un número de versión. Si después de ejecutar
+Set-ExecutionPolicy `npm -v` sigue dando el mismo error de scripts
+deshabilitados, usa las variantes `.cmd` en todo el taller: `npm.cmd`,
+`npx.cmd` (funcionan igual, solo evitan el wrapper .ps1 que PowerShell
+bloquea).
 
 Si npm sigue sin estar disponible por otra razón:
 
@@ -217,23 +240,23 @@ Simplemente confirma:
 
 ### Paso 6 — Cuenta de Vercel (solo guiar la creación)
 
-Vercel es el servicio donde publicaremos tu página web al final del taller.
-Crear la cuenta ahora nos ahorra tiempo después porque requiere confirmar
-por email (y eso tarda unos minutos).
+Vercel es el servicio donde publicaremos la página web al final del taller.
+Crear la cuenta ahora ahorra tiempo después porque requiere confirmar por
+email (y eso tarda unos minutos).
 
-**No instales el CLI de Vercel aquí. No ejecutes `vercel login`. Eso lo
-hace la skill `publica-tu-web` más adelante.**
+No instales el CLI de Vercel aquí. No ejecutes `vercel login`. Eso lo
+hace la skill `publica-tu-web` más adelante.
 
 Pregunta al usuario:
 
 > "Ahora necesitamos crear tu cuenta gratuita en Vercel (el servicio donde
 > vamos a publicar tu página web). ¿Ya tienes una cuenta en vercel.com?"
 
-**Si dice que sí:** pregunta si puede entrar a https://vercel.com/dashboard
+Si dice que sí: pregunta si puede entrar a https://vercel.com/dashboard
 en su navegador. Si puede, todo bien. Si no puede, que intente recuperar
 contraseña.
 
-**Si dice que no:** guíalo paso a paso:
+Si dice que no, guíalo paso a paso:
 
 > "Vamos a crear tu cuenta gratis. Sigue estos pasos:
 > 1. Abre tu navegador (Chrome, Safari, Edge... el que uses)
@@ -246,7 +269,7 @@ contraseña.
 > 6. Cuando veas tu panel de Vercel (una página que dice 'Overview'),
 >    dime 'listo'
 >
-> IMPORTANTE: NO elijas 'Continue with GitHub' — elige 'Continue with Email'.
+> No elijas 'Continue with GitHub' — elige 'Continue with Email'.
 > La cuenta es gratis, no te va a pedir tarjeta."
 
 Espera confirmación del usuario antes de continuar.
@@ -255,7 +278,8 @@ Espera confirmación del usuario antes de continuar.
 
 ## Resumen final
 
-Cuando todos los pasos estén completos, muestra un resumen como este:
+Cuando todos los pasos estén completos, muestra un resumen con este formato
+exacto:
 
 > **Resultado de la revisión:**
 >
@@ -268,13 +292,13 @@ Cuando todos los pasos estén completos, muestra un resumen como este:
 >
 > **✅ Tu equipo está listo para el taller. ¡Vamos a crear tu página web!**
 
-Si algún paso quedó pendiente, en lugar de ✅ pon lo que falta y la
-acción exacta:
+Si algún paso quedó pendiente, sustituye el checkmark por lo que falta
+y la acción exacta. Por ejemplo:
 
-> ❌ Internet: **SIN CONEXIÓN** — conéctate al hotspot de tu teléfono
+> ❌ Internet: **sin conexión** — conéctate al hotspot de tu teléfono
 >   y dime 'revisa mi equipo' otra vez
 
-No continúes con otras skills hasta que todo esté en ✅.
+No continúes con otras skills hasta que todo esté resuelto.
 
 ---
 
@@ -289,7 +313,7 @@ No continúes con otras skills hasta que todo esté en ✅.
 | Terminal no encuentra node después de instalar | En Windows: refresca el PATH con el comando del Paso 3 (sin reiniciar). En macOS/Linux: "Cierra esta terminal, abre una nueva, y pídeme 'revisa mi equipo' otra vez" |
 | (Windows) `npm`/`npx` bloqueados: "running scripts is disabled" | Ejecutar `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force` (no necesita admin). Plan B: usar `npm.cmd` / `npx.cmd` |
 | (Windows) El usuario cerró o le dio "No" a la ventana de permiso (UAC) | "Voy a intentarlo de nuevo — cuando aparezca la ventana preguntando si permites el cambio, dale **Sí**" |
-| (Windows) `winget` no existe | Windows viejo o tienda deshabilitada → usar el instalador del navegador (Intento 2 del Paso 3) |
+| (Windows) `winget` no existe | Windows viejo o tienda deshabilitada — usar el instalador del navegador (Intento 2 del Paso 3) |
 | (Windows) `npm install` va lentísimo | Es el antivirus (Windows Defender) escaneando cada archivo — es normal en laptops con antivirus corporativo. "Va a tardar unos minutos, es normal en Windows; aprovecha para ir pensando en los colores de tu página" — NUNCA sugieras desactivar el antivirus |
 | El correo de verificación de Vercel no llega | "Revisa tu carpeta de spam o correo no deseado. Si no está ahí, intenta con otro correo." |
 | La laptop es muy vieja y no soporta Node 20 | "Tu laptop necesita un sistema operativo más reciente para Node.js 20. Por hoy, trabaja con un compañero que tenga todo listo." |
