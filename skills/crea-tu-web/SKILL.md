@@ -90,13 +90,26 @@ Genera un slug del nombre del negocio en ASCII kebab-case (sin acentos, sin espa
 
 Ejecuta estos comandos exactos. Usa npm SIEMPRE — nunca pnpm, yarn ni bun.
 
+**macOS / Linux (bash):**
+
 ```bash
 npx create-next-app@latest <slug> --yes --use-npm && cd <slug> && npx shadcn@latest init --defaults && npx shadcn@latest add -y button card separator
 ```
 
+**Windows (PowerShell):** el operador `&&` NO existe en PowerShell 5.1 (el
+preinstalado) — da error de sintaxis. Ejecuta cada comando como una llamada
+separada, verificando que la anterior terminó bien antes de seguir:
+
+```powershell
+npx create-next-app@latest <slug> --yes --use-npm
+cd <slug>
+npx shadcn@latest init --defaults
+npx shadcn@latest add -y button card separator
+```
+
 El flag `--yes` acepta todos los defaults: TypeScript, Tailwind v4, ESLint, App Router, Turbopack, alias `@/*`. El flag `-y` en `shadcn add` evita que pregunte confirmación.
 
-> **Importante sobre el directorio de trabajo:** Todos los comandos a partir de aquí se ejecutan DENTRO de la carpeta del proyecto (`<slug>/`). Si tu herramienta reinicia el directorio entre llamadas a bash (como Codex CLI), usa la ruta absoluta o encadena los comandos con `&&`.
+> **Importante sobre el directorio de trabajo:** Todos los comandos a partir de aquí se ejecutan DENTRO de la carpeta del proyecto (`<slug>/`). Si tu herramienta reinicia el directorio entre llamadas al shell (como Codex CLI), usa la ruta absoluta del proyecto en cada comando. En macOS/Linux también puedes encadenar con `&&`; en Windows ejecuta los comandos de uno en uno (nunca `&&`).
 
 Si npm muestra errores de "peer dependency conflict" con React 19, agrega `--legacy-peer-deps` al comando `npm install` que falle.
 
@@ -311,14 +324,16 @@ El área de toque de cada botón es mínimo 44x44px. Para el botón de WhatsApp,
 
 Arranca el servidor de desarrollo en segundo plano. El comando `npm run dev` bloquea la terminal, así que debes ejecutarlo en background:
 
-- **En Claude Code:** usa el parámetro `run_in_background: true` en la herramienta Bash.
-- **En Codex CLI:** ejecuta `nohup npm run dev > /dev/null 2>&1 &`.
+- **En Claude Code (cualquier SO):** usa el parámetro `run_in_background: true` en la herramienta Bash.
+- **En Codex CLI (macOS/Linux):** ejecuta `nohup npm run dev > /dev/null 2>&1 &`.
+- **En Codex CLI (Windows/PowerShell):** `nohup`, `/dev/null` y `&` no existen en PowerShell 5.1. Ejecuta en su lugar:
+  `Start-Process npm.cmd -ArgumentList 'run','dev' -WindowStyle Hidden -WorkingDirectory (Get-Location)`
 
 Espera unos segundos a que el servidor arranque antes de avisarle al dueño.
 
 Dile al dueño: **"Tu página ya está lista. Ábrela en tu navegador en http://localhost:3000 para que la veas."**
 
-Si el entorno soporta abrir el navegador automáticamente (comando `open` en Mac), hazlo. Si no, da la URL y ya.
+Si el entorno soporta abrir el navegador automáticamente (`open http://localhost:3000` en Mac, `Start-Process "http://localhost:3000"` en Windows), hazlo. Si no, da la URL y ya.
 
 ---
 

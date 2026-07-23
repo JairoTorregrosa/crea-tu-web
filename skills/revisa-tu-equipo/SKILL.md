@@ -30,6 +30,14 @@ o la variable de entorno `OS` en Windows). Registra internamente:
 - `AGENTE`: el nombre del agente CLI que está ejecutando esta skill (Claude Code
   o Codex CLI — tú ya sabes cuál eres)
 
+**Nota sobre Windows (probable en este taller):** tanto Claude Code como
+Codex corren de forma nativa en Windows y ejecutan comandos en **PowerShell**,
+no en bash. En Windows usa SIEMPRE las variantes PowerShell de cada paso.
+Todos los comandos PowerShell de esta skill funcionan en Windows PowerShell
+5.1 (el que viene preinstalado) — no requieren PowerShell 7. Si `uname`
+falla con "no se reconoce", estás en PowerShell: confírmalo con `$env:OS`
+(devuelve `Windows_NT`).
+
 Muestra al usuario:
 
 > "Estoy revisando tu laptop... Detecté que usas **[SO]** y que tu asistente
@@ -56,9 +64,9 @@ en lugar de `api.anthropic.com`.
 #### Windows (PowerShell)
 
 ```powershell
-(Invoke-WebRequest -Uri "https://registry.npmjs.org/" -Method Head -TimeoutSec 5).StatusCode
-(Invoke-WebRequest -Uri "https://vercel.com/" -Method Head -TimeoutSec 5).StatusCode
-try { (Invoke-WebRequest -Uri "https://api.anthropic.com/" -Method Head -TimeoutSec 5).StatusCode } catch { if ($_.Exception.Response) { 'reachable' } else { throw } }
+(Invoke-WebRequest -Uri "https://registry.npmjs.org/" -Method Head -TimeoutSec 5 -UseBasicParsing).StatusCode
+(Invoke-WebRequest -Uri "https://vercel.com/" -Method Head -TimeoutSec 5 -UseBasicParsing).StatusCode
+try { (Invoke-WebRequest -Uri "https://api.anthropic.com/" -Method Head -TimeoutSec 5 -UseBasicParsing).StatusCode } catch { if ($_.Exception.Response) { 'reachable' } else { throw } }
 ```
 
 Mismos criterios de éxito. Si el agente es Codex, usa `https://api.openai.com/`
@@ -111,20 +119,50 @@ fnm use 22
 
 #### Windows (PowerShell)
 
-Guía al usuario con instrucciones paso a paso — no intentes ejecutar
-instaladores automáticamente en Windows:
+**Intento 1 — winget (automático, viene con Windows 10/11 moderno):**
 
-> "Necesitas instalar Node.js. Sigue estos pasos:
+Primero avisa al usuario:
+
+> "Voy a instalar Node.js. En unos segundos Windows te va a mostrar una
+> ventana preguntando si permites el cambio (dice 'Control de cuentas de
+> usuario'). Dale clic a **Sí**."
+
+Luego ejecuta:
+
+```powershell
+winget install -e --id OpenJS.NodeJS.LTS --accept-source-agreements --accept-package-agreements
+```
+
+**Después de instalar, la terminal actual NO ve el nuevo PATH.** Refréscalo
+en la misma sesión (funciona en PowerShell 5.1 y 7) y verifica:
+
+```powershell
+$env:Path = [Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [Environment]::GetEnvironmentVariable('Path','User')
+node -v
+```
+
+Si `node -v` responde con la versión, sigue al Paso 4 — no hace falta
+reiniciar nada.
+
+**Intento 2 — si winget no existe o falla** (Windows viejo, tienda
+deshabilitada, o el usuario le dio "No" al permiso), guíalo por el navegador:
+
+> "Vamos a instalarlo manualmente. Sigue estos pasos:
 > 1. Abre tu navegador y ve a https://nodejs.org/es
 > 2. Descarga la versión LTS (el botón verde grande)
-> 3. Abre el archivo descargado y sigue las instrucciones del instalador
->    (dale 'Next' a todo)
-> 4. Cuando termine, cierra esta terminal y abre una nueva
-> 5. Escribe 'listo' y vuelvo a revisar"
+> 3. Abre el archivo descargado y dale 'Next' a todo; si Windows pregunta
+>    si permites el cambio, dale 'Sí'
+> 4. Cuando termine, escribe 'listo' y vuelvo a revisar"
 
-**Después de instalar (IMPORTANTE):** cada llamada a Bash abre un shell
-nuevo, así que Node recién instalado vía fnm/nvm puede no estar en el PATH.
-Verifica con:
+Cuando diga "listo", refresca el PATH con el comando de arriba y verifica
+`node -v`. Solo si aún no aparece, pídele cerrar y reabrir la aplicación
+del agente (Claude Code / Codex) — no basta con abrir otra ventana del
+navegador.
+
+**Después de instalar — SOLO macOS / Linux (IMPORTANTE):** cada llamada a
+Bash abre un shell nuevo, así que Node recién instalado vía fnm/nvm puede
+no estar en el PATH. (En Windows NO ejecutes este bloque — el refresco de
+PATH de Windows ya está en el Intento 1 de arriba.) Verifica con:
 
 ```bash
 source ~/.bashrc 2>/dev/null; source ~/.zshrc 2>/dev/null; source ~/.profile 2>/dev/null
@@ -139,7 +177,29 @@ Si aún no lo encuentra, dile al usuario:
 ### Paso 4 — Verificar npm
 
 Ejecuta `npm -v`. npm viene incluido con Node.js, así que si el paso 3 pasó
-bien, este también debería pasar. Si por alguna razón npm no está disponible:
+bien, este también debería pasar.
+
+**Caso especial Windows — "running scripts is disabled":** si `npm -v` o
+`npx` fallan con un error tipo *"npm.ps1 cannot be loaded because running
+scripts is disabled on this system"* (o en español, *"no se puede cargar
+porque la ejecución de scripts está deshabilitada"*), es la política de
+seguridad de PowerShell bloqueando los scripts de npm. Se arregla sin
+permisos de administrador:
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+npm -v
+```
+
+Explícale al usuario en una frase: "Windows bloqueaba los comandos de npm
+por seguridad; acabo de dar permiso solo para tu usuario — es seguro y
+reversible." OJO: en laptops de empresa el comando puede "funcionar" sin
+error pero la política corporativa sigue bloqueando — la prueba real es
+`npm -v`. Si después de ejecutarlo `npm -v` sigue dando el mismo error de
+scripts deshabilitados, usa las variantes `.cmd` en TODO el taller:
+`npm.cmd`, `npx.cmd` (funcionan igual).
+
+Si npm sigue sin estar disponible por otra razón:
 
 > "npm no está disponible. Esto es raro porque viene incluido con Node.js.
 > Intenta cerrar la terminal, abrir una nueva, y pedirme 'revisa mi equipo'
@@ -226,6 +286,10 @@ No continúes con otras skills hasta que todo esté en ✅.
 | No tiene permisos de admin para instalar | Usar fnm (no necesita admin). Si ni eso funciona: "Pídele al organizador que te ayude a instalar Node.js" |
 | Node.js instalado pero versión vieja (< 20) | Instalar versión 22 con fnm junto a la vieja — fnm maneja múltiples versiones sin conflicto |
 | npm da error de permisos | "Ejecuta este comando: `npm config set prefix ~/.npm-global` y luego agrega `export PATH=~/.npm-global/bin:$PATH` a tu archivo de configuración del terminal" |
-| Terminal no encuentra node después de instalar | "Cierra esta terminal, abre una nueva, y pídeme 'revisa mi equipo' otra vez" |
+| Terminal no encuentra node después de instalar | En Windows: refresca el PATH con el comando del Paso 3 (sin reiniciar). En macOS/Linux: "Cierra esta terminal, abre una nueva, y pídeme 'revisa mi equipo' otra vez" |
+| (Windows) `npm`/`npx` bloqueados: "running scripts is disabled" | Ejecutar `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force` (no necesita admin). Plan B: usar `npm.cmd` / `npx.cmd` |
+| (Windows) El usuario cerró o le dio "No" a la ventana de permiso (UAC) | "Voy a intentarlo de nuevo — cuando aparezca la ventana preguntando si permites el cambio, dale **Sí**" |
+| (Windows) `winget` no existe | Windows viejo o tienda deshabilitada → usar el instalador del navegador (Intento 2 del Paso 3) |
+| (Windows) `npm install` va lentísimo | Es el antivirus (Windows Defender) escaneando cada archivo — es normal en laptops con antivirus corporativo. "Va a tardar unos minutos, es normal en Windows; aprovecha para ir pensando en los colores de tu página" — NUNCA sugieras desactivar el antivirus |
 | El correo de verificación de Vercel no llega | "Revisa tu carpeta de spam o correo no deseado. Si no está ahí, intenta con otro correo." |
 | La laptop es muy vieja y no soporta Node 20 | "Tu laptop necesita un sistema operativo más reciente para Node.js 20. Por hoy, trabaja con un compañero que tenga todo listo." |
