@@ -308,11 +308,13 @@ Arranca el servidor de desarrollo en segundo plano. El comando `npm run dev` blo
 - **En Codex CLI (Windows/PowerShell):** `nohup`, `/dev/null` y `&` no existen en PowerShell 5.1. Ejecuta en su lugar:
   `Start-Process npm.cmd -ArgumentList 'run','dev' -WindowStyle Hidden -WorkingDirectory (Get-Location)`
 
-Espera unos segundos a que el servidor arranque.
+Espera unos segundos a que el servidor arranque y **lee la URL exacta que imprimió**
+(normalmente http://localhost:3000, pero si el puerto está ocupado Next.js usa 3001,
+3002...). Usa siempre la URL impresa, no la asumas.
 
-Dile al dueño: **"Tu página ya está lista. Ábrela en tu navegador en http://localhost:3000 para que la veas."**
+Dile al dueño: **"Tu página ya está lista. Ábrela en tu navegador en [URL exacta] para que la veas."**
 
-Si el entorno soporta abrir el navegador automáticamente (`open http://localhost:3000` en Mac, `Start-Process "http://localhost:3000"` en Windows), hazlo. Si no, da la URL.
+Si el entorno soporta abrir el navegador automáticamente (`open [URL]` en Mac, `Start-Process "[URL]"` en Windows), hazlo. Si no, da la URL.
 
 ---
 
@@ -373,7 +375,13 @@ Los colores son variables CSS y los textos están en un diccionario, así que la
 
 - Si el dueño tiene logo: copiarlo a `public/logo.{png,svg,jpg}` y usar `next/image` con `width` y `height` explícitos.
 - Si tiene fotos propias: copiarlas a `public/`, formato WebP si es posible, ancho máximo 1200px, `loading="lazy"` para las que están debajo del fold.
-- Si no tiene nada: generar gráficos SVG inline con los colores de marca. Patrones, formas geométricas, o iconos simples. Nunca descargar fotos de internet: las fotos de personas reales llevan derechos de imagen y usarlas expone al dueño a reclamos legales.
+- Si no tiene nada: primero revisa si tu entorno tiene una herramienta de generación de
+  imágenes (image_gen, imagegen o similar) — si la hay, genera una ilustración plana con
+  los colores de marca (sin texto, sin personas reales) para el hero. Si no hay
+  herramienta de imágenes, usa patrones o formas geométricas SVG sencillas con los
+  colores de marca como marcador de posición. Nunca descargar fotos de internet: las
+  fotos de personas reales llevan derechos de imagen y usarlas expone al dueño a
+  reclamos legales.
 
 ### Accesibilidad (quality floor)
 

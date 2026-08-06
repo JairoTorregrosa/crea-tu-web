@@ -226,6 +226,18 @@ Antes de guardar, muestra un resumen corto del PRD:
 Si pide cambios, aplícalos y vuelve a confirmar. Solo cuando diga que está bien, guarda el
 archivo PRD.md en la raíz del proyecto.
 
+## Paso 8 — Cerrar el ciclo
+
+El PRD no se implementa solo. Después de guardarlo, ofrece de inmediato:
+
+> **"¿Quieres que complete ahora la Versión 1 de tu plan? Voy ítem por ítem y te muestro
+> cada uno cuando esté listo."**
+
+Si acepta, implementa los ítems de V1 uno a la vez (un cambio, se lo muestras, confirmas,
+siguiente), usando DESIGN.md para las decisiones visuales. Cuando la V1 esté completa,
+sugiere el paso final: "Tu página está lista para salir a internet. Dime 'publica mi
+página' cuando quieras."
+
 ---
 
 ## Reglas generales

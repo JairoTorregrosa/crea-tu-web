@@ -86,7 +86,7 @@ Haz UNA pregunta a la vez. Espera la respuesta antes de la siguiente.
 
 - **Concreta los colores genéricos.** Si dice "rojo", propón 2-3
   tonos con nombre y HEX para que elija: "Rojo cereza (#DC143C), rojo
-  ladrillo (#8B2500), rojo vibrante (#FF2D2D) — ¿cuál te gusta más?"
+  ladrillo (#8B2500), rojo vivo (#E02020) — ¿cuál te gusta más?"
 
 ---
 

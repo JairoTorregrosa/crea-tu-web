@@ -20,7 +20,8 @@ página web desde cero. Este es el **paso 0** del kit de 5 skills:
 **Éxito** significa que al terminar esta skill el equipo tiene Node.js,
 npm, conexión a internet confirmada contra los servicios reales, el agente
 CLI funcionando, y una cuenta de Cloudflare creada, de modo que las cuatro
-skills siguientes puedan ejecutarse sin interrupciones técnicas.
+skills de construcción (crea-tu-web, disena-tu-marca, planea-tu-web,
+publica-tu-web) puedan ejecutarse sin interrupciones técnicas.
 
 ## Instrucciones para el agente
 
