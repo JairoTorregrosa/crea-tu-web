@@ -1,6 +1,6 @@
 ---
 name: revisa-tu-equipo
-description: "Diagnostica y repara el equipo del asistente antes de construir su página web. Verifica Node.js, npm, conexión a internet, que el agente CLI esté funcionando, y guía la creación de una cuenta gratuita de Vercel. Usa esta skill SIEMPRE que el usuario diga 'revisa mi equipo', 'prepara mi equipo', '¿tengo todo lo necesario?', 'antes de empezar', 'verificar requisitos', 'setup', '¿mi laptop está lista?', o cualquier variante que indique que quiere confirmar que su entorno está listo para el taller. Es el paso 0 obligatorio -- debe ejecutarse antes de cualquier otra skill del kit crea-tu-web."
+description: "Diagnostica y repara el equipo del asistente antes de construir su página web. Verifica Node.js, npm, conexión a internet, que el agente CLI esté funcionando, y guía la creación de una cuenta gratuita de Cloudflare. Usa esta skill SIEMPRE que el usuario diga 'revisa mi equipo', 'prepara mi equipo', '¿tengo todo lo necesario?', 'antes de empezar', 'verificar requisitos', 'setup', '¿mi laptop está lista?', o cualquier variante que indique que quiere confirmar que su entorno está listo para el taller. Es el paso 0 obligatorio -- debe ejecutarse antes de cualquier otra skill del kit crea-tu-web."
 ---
 
 # Revisa tu equipo
@@ -19,7 +19,7 @@ página web desde cero. Este es el **paso 0** del kit de 5 skills:
 
 **Éxito** significa que al terminar esta skill el equipo tiene Node.js,
 npm, conexión a internet confirmada contra los servicios reales, el agente
-CLI funcionando, y una cuenta de Vercel creada, de modo que las cuatro
+CLI funcionando, y una cuenta de Cloudflare creada, de modo que las cuatro
 skills siguientes puedan ejecutarse sin interrupciones técnicas.
 
 ## Instrucciones para el agente
@@ -74,7 +74,7 @@ realmente necesitamos.
 
 ```bash
 curl -sS --max-time 5 -o /dev/null -w "%{http_code}" https://registry.npmjs.org/
-curl -sS --max-time 5 -o /dev/null -w "%{http_code}" https://vercel.com/
+curl -sS --max-time 5 -o /dev/null -w "%{http_code}" https://dash.cloudflare.com/
 curl -sS --max-time 5 -o /dev/null -w "%{http_code}" https://api.anthropic.com/
 ```
 
@@ -86,7 +86,7 @@ en lugar de `api.anthropic.com`.
 
 ```powershell
 (Invoke-WebRequest -Uri "https://registry.npmjs.org/" -Method Head -TimeoutSec 5 -UseBasicParsing).StatusCode
-(Invoke-WebRequest -Uri "https://vercel.com/" -Method Head -TimeoutSec 5 -UseBasicParsing).StatusCode
+(Invoke-WebRequest -Uri "https://dash.cloudflare.com/" -Method Head -TimeoutSec 5 -UseBasicParsing).StatusCode
 try { (Invoke-WebRequest -Uri "https://api.anthropic.com/" -Method Head -TimeoutSec 5 -UseBasicParsing).StatusCode } catch { if ($_.Exception.Response) { 'reachable' } else { throw } }
 ```
 
@@ -238,38 +238,36 @@ Simplemente confirma:
 
 > "Tu asistente de IA (**[AGENTE]**) está funcionando correctamente."
 
-### Paso 6 — Cuenta de Vercel (solo guiar la creación)
+### Paso 6 — Cuenta de Cloudflare (solo guiar la creación)
 
-Vercel es el servicio donde publicaremos la página web al final del taller.
+Cloudflare es el servicio donde publicaremos la página web al final del
+taller. Su plan gratuito no pide tarjeta y sí permite páginas de negocios.
 Crear la cuenta ahora ahorra tiempo después porque requiere confirmar por
 email (y eso tarda unos minutos).
 
-No instales el CLI de Vercel aquí. No ejecutes `vercel login`. Eso lo
+No instales wrangler aquí. No ejecutes `wrangler login`. Eso lo
 hace la skill `publica-tu-web` más adelante.
 
 Pregunta al usuario:
 
-> "Ahora necesitamos crear tu cuenta gratuita en Vercel (el servicio donde
-> vamos a publicar tu página web). ¿Ya tienes una cuenta en vercel.com?"
+> "Ahora necesitamos crear tu cuenta gratuita en Cloudflare (el servicio
+> donde vamos a publicar tu página web). ¿Ya tienes una cuenta? Si fuiste
+> al taller, la creaste ese día."
 
-Si dice que sí: pregunta si puede entrar a https://vercel.com/dashboard
+Si dice que sí: pregunta si puede entrar a https://dash.cloudflare.com/
 en su navegador. Si puede, todo bien. Si no puede, que intente recuperar
-contraseña.
+contraseña (o que entre con el botón de GitHub si así la creó en el taller).
 
 Si dice que no, guíalo paso a paso:
 
 > "Vamos a crear tu cuenta gratis. Sigue estos pasos:
 > 1. Abre tu navegador (Chrome, Safari, Edge... el que uses)
-> 2. Ve a https://vercel.com/signup
-> 3. Donde dice 'Continue with Email', escribe tu correo electrónico
->    y dale clic
-> 4. Pon tu nombre y crea una contraseña
-> 5. Revisa tu correo — te va a llegar un mensaje de Vercel para confirmar.
->    Abre ese correo y dale clic al botón de confirmar
-> 6. Cuando veas tu panel de Vercel (una página que dice 'Overview'),
->    dime 'listo'
+> 2. Ve a https://dash.cloudflare.com/sign-up
+> 3. Escribe tu correo electrónico y crea una contraseña
+> 4. Revisa tu correo — te va a llegar un mensaje de Cloudflare para
+>    confirmar. Abre ese correo y dale clic al botón de confirmar
+> 5. Cuando veas el panel de Cloudflare, dime 'listo'
 >
-> No elijas 'Continue with GitHub' — elige 'Continue with Email'.
 > La cuenta es gratis, no te va a pedir tarjeta."
 
 Espera confirmación del usuario antes de continuar.
@@ -288,7 +286,7 @@ exacto:
 > ✅ Node.js: **v[X.Y.Z]**
 > ✅ npm: **v[X.Y.Z]**
 > ✅ Agente: **[AGENTE]**
-> ✅ Cuenta Vercel: **creada**
+> ✅ Cuenta Cloudflare: **creada**
 >
 > **✅ Tu equipo está listo para el taller. ¡Vamos a crear tu página web!**
 
@@ -315,5 +313,5 @@ No continúes con otras skills hasta que todo esté resuelto.
 | (Windows) El usuario cerró o le dio "No" a la ventana de permiso (UAC) | "Voy a intentarlo de nuevo — cuando aparezca la ventana preguntando si permites el cambio, dale **Sí**" |
 | (Windows) `winget` no existe | Windows viejo o tienda deshabilitada — usar el instalador del navegador (Intento 2 del Paso 3) |
 | (Windows) `npm install` va lentísimo | Es el antivirus (Windows Defender) escaneando cada archivo — es normal en laptops con antivirus corporativo. "Va a tardar unos minutos, es normal en Windows; aprovecha para ir pensando en los colores de tu página" — NUNCA sugieras desactivar el antivirus |
-| El correo de verificación de Vercel no llega | "Revisa tu carpeta de spam o correo no deseado. Si no está ahí, intenta con otro correo." |
+| El correo de verificación de Cloudflare no llega | "Revisa tu carpeta de spam o correo no deseado. Si no está ahí, intenta con otro correo." |
 | La laptop es muy vieja y no soporta Node 20 | "Tu laptop necesita un sistema operativo más reciente para Node.js 20. Por hoy, trabaja con un compañero que tenga todo listo." |

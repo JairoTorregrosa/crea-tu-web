@@ -25,23 +25,24 @@ Sigue estos pasos en orden:
    - Si estoy en Codex, copia la carpeta skills/ completa:
      mkdir -p ~/.codex/skills && cp -r /tmp/crea-tu-web/skills/* ~/.codex/skills/
 
-4. Verifica la instalacion listando las skills instaladas. Cada una debe tener un archivo SKILL.md. Deberias ver estas 5:
+4. Verifica la instalacion listando las skills instaladas. Cada una debe tener un archivo SKILL.md. Deberias ver estas 6:
    - revisa-tu-equipo
    - crea-tu-web
    - disena-tu-marca
    - planea-tu-web
    - publica-tu-web
+   - taste-skill
 
 5. Si alguna falta, repite el paso 3 solo para esa skill.
 
-6. Cuando las 5 esten instaladas, responde exactamente: "Listo"
+6. Cuando las 6 esten instaladas, responde exactamente: "Listo"
 ```
 
 ---
 
-## Las 5 skills del taller
+## Las 6 skills del taller
 
-Se usan en este orden. Cada una guia a la IA paso a paso para que tu solo tengas que responder preguntas sobre tu negocio.
+Las primeras 5 se usan en este orden. Cada una guia a la IA paso a paso para que tu solo tengas que responder preguntas sobre tu negocio.
 
 | # | Skill | Que hace |
 |---|---|---|
@@ -49,7 +50,8 @@ Se usan en este orden. Cada una guia a la IA paso a paso para que tu solo tengas
 | 2 | **crea-tu-web** | Te hace una entrevista corta sobre tu negocio y crea tu pagina web desde cero con Next.js, bilingue espanol/ingles. |
 | 3 | **disena-tu-marca** | Elige colores, tipografia y estilo visual unicos para tu negocio — nada de plantillas genericas. |
 | 4 | **planea-tu-web** | Organiza las secciones y el contenido de tu pagina segun lo que tu negocio necesita. |
-| 5 | **publica-tu-web** | Sube tu pagina a internet con Vercel y genera un codigo QR para compartirla al instante. |
+| 5 | **publica-tu-web** | Sube tu pagina a internet con Cloudflare Pages (gratis, sin tarjeta) y genera un codigo QR para compartirla al instante. |
+| 6 | **taste-skill** | Guia de buen gusto visual que la IA consulta sola mientras disena y construye: evita que tu pagina se vea como plantilla generica de IA. No tienes que invocarla; esta en ingles porque es material tecnico para la IA. |
 
 ---
 
