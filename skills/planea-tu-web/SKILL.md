@@ -99,9 +99,15 @@ Explica así:
 > 2. **Lo que quieres después** — buenas ideas que pueden esperar unas semanas.
 > 3. **Lo que NO vamos a hacer por ahora** — y está bien, no es un "no" para siempre.
 
-Para cada idea de la lista, pregunta:
+Para cada idea de la lista, pregunta — con la herramienta interactiva de tu
+entorno si existe (en Claude Code `AskUserQuestion`; en Codex
+`request_user_input`, y si tu modo no la tiene y devuelve error, en el
+chat), con estas tres opciones exactas:
 
-> **"[Idea] — ¿la necesitas ya, la quieres pero puede esperar, o la descartamos por ahora?"**
+> **"[Idea] — ¿qué hacemos con esta?"**
+> 1. **La necesito YA**
+> 2. **Puede esperar**
+> 3. **Descartarla por ahora**
 
 Si el dueño duda, ayuda con esta pregunta:
 

@@ -33,6 +33,22 @@ Esta skill es **idempotente**: ejecutarla dos veces no rompe nada. Cada
 paso verifica el estado actual antes de actuar. Si todo ya está bien,
 simplemente lo confirma.
 
+**Cómo preguntar (interactividad).** Cuando un paso te pida preguntar algo
+al usuario, usa la herramienta interactiva de tu entorno en vez de solo
+escribir la pregunta:
+
+- **Claude Code:** herramienta `AskUserQuestion`, cuando la pregunta tenga
+  opciones naturales (2-4 opciones cortas; el usuario siempre puede
+  contestar otra cosa). UNA pregunta por llamada.
+- **Codex:** herramienta `request_user_input` si está disponible en tu
+  modo (en modo Default no existe y devuelve error; en ese caso pregunta
+  directo en el chat y espera).
+- **Cualquier otro entorno** (claude.ai/code, Cowork, ChatGPT Work):
+  pregunta en el chat y espera la respuesta antes de continuar.
+
+Las preguntas de sí/no y de elegir entre opciones van con la herramienta;
+las abiertas (correos, nombres) van en el chat.
+
 ---
 
 ## Procedimiento
@@ -58,10 +74,12 @@ el usuario menciona que está en el celular o "en la app".
 **Modo PC/terminal** — tú eres Claude Code o Codex CLI corriendo en la
 laptop del usuario.
 
-Si las señales no bastan para decidir, haz UNA sola pregunta:
+Si las señales no bastan para decidir, haz UNA sola pregunta — con la
+herramienta interactiva, con estas dos opciones:
 
-> "¿Estás trabajando desde una laptop con la terminal (Claude Code o
-> Codex), o desde la app de ChatGPT o Claude — por ejemplo en tu celular?"
+> "¿Desde dónde estás trabajando?"
+> 1. **Laptop con terminal** (Claude Code o Codex)
+> 2. **La app de ChatGPT o Claude** (web o celular)
 
 **Si es modo app/nube: SALTA los Pasos 1 a 5.** No revises Node.js, npm ni
 nada del PC — la construcción corre en la nube y de eso se encarga la

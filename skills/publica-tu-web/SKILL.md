@@ -37,9 +37,12 @@ informativa con teléfono y WhatsApp es perfectamente válida).
 ## Paso 0 — Preparar el sitio para exportación estática
 
 Antes de tocar nada: si existe `PRD.md` en la raíz con ítems de "Versión 1" sin
-implementar, avísale al asistente en una frase ("Tu plan tiene [N] cosas de la
-Versión 1 sin terminar; ¿publicamos como está o las completo primero?") y respeta
-su decisión. Publicar una página incompleta a propósito está bien — es su página.
+implementar, pregúntaselo al asistente — con la herramienta interactiva de tu
+entorno si existe (en Claude Code `AskUserQuestion`; en Codex
+`request_user_input`, y si tu modo no la tiene y devuelve error, en el chat) —
+con dos opciones: **"Publicar como está"** / **"Completar lo que falta
+primero"**. Respeta su decisión. Publicar una página incompleta a propósito
+está bien — es su página.
 
 La página se publica como sitio estático. Antes de compilar, revisa
 `next.config.ts` en la raíz del proyecto. Debe incluir `output: "export"` e

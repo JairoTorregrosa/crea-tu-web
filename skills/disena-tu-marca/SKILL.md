@@ -49,6 +49,14 @@ preguntas sobre el tipo de negocio.
 
 Haz UNA pregunta a la vez. Espera la respuesta antes de la siguiente.
 
+**Interactividad:** las preguntas 2 (sensación), 3 (qué NO parecer) y 4
+(logo) tienen opciones naturales — hazlas con la herramienta interactiva
+de tu entorno: en Claude Code `AskUserQuestion`, en Codex
+`request_user_input` (si tu modo no la tiene y devuelve error, pregunta
+en el chat), con las opciones listadas en cada pregunta y UNA pregunta por
+llamada. Lo mismo al proponer 2-3 tonos de un color: preséntalos como
+opciones. En entornos sin estas herramientas, pregunta en el chat y espera.
+
 1. **Colores** — "¿Qué colores te representan o te gustan para tu
    negocio? Puede ser un color exacto, el color de tu local, o una
    idea general como 'azul marino'."

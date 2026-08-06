@@ -30,6 +30,8 @@ Esta skill es el paso 1 de construcción del taller (después de `revisa-tu-equi
 
 Haz las preguntas una por una. Espera la respuesta antes de hacer la siguiente (porque una persona no técnica se abruma si recibe varias preguntas a la vez — necesita procesar y responder cada una sin prisa). Cada pregunta incluye un ejemplo para que el dueño entienda qué tipo de respuesta esperas. Habla en español claro, como en una conversación normal.
 
+**Interactividad:** cuando una pregunta tenga opciones naturales o sea de sí/no (la 4 sobre WhatsApp, la 8 sobre logo y fotos), hazla con la herramienta interactiva de tu entorno — en Claude Code `AskUserQuestion`, en Codex `request_user_input` (si tu modo no la tiene y devuelve error, pregunta en el chat) — con 2-4 opciones cortas, UNA pregunta por llamada. Las abiertas (nombre, teléfono, ubicación) van siempre en el chat. En entornos sin estas herramientas (claude.ai/code, Cowork, ChatGPT Work), pregunta en el chat y espera.
+
 ### Las 8 preguntas
 
 **1. "¿Cómo se llama tu negocio?"**
