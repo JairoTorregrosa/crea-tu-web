@@ -72,6 +72,48 @@ Las primeras 5 se usan en este orden. Cada una guia a la IA paso a paso para que
 
 ---
 
+## El flujo completo
+
+```text
+  [0] revisa-tu-equipo ................. "revisa mi equipo"
+      Deja listo: Node.js + npm + internet + agente CLI
+      + cuenta de Cloudflare (la usa el paso 4)
+        |
+        v
+  [1] crea-tu-web ...................... "crea mi pagina"
+      Entrevista de 8 preguntas -> proyecto Next.js
+      Produce: carpeta <negocio>/ + negocio.json
+      + sitio corriendo en localhost                          +--------------------+
+        |                                                     |     taste-skill    |
+        |  negocio.json (colores, que NO quiere, logo)        |  (apoyo, en ingles)|
+        v                                                     |                    |
+  [2] disena-tu-marca ................. "disena mi marca"     |  La IA la consulta |
+      Entrevista de marca -> paleta verificada AA             |  sola en los pasos |
+      (scripts/contraste.mjs) -> tokens aplicados             |  1, 2 y 3 para que |
+      Produce: DESIGN.md + globals.css con tu marca      <----+  la pagina no se   |
+        |                                                     |  vea de plantilla  |
+        |  DESIGN.md (paleta, tipografia, componentes)        |  generica.         |
+        v                                                     +--------------------+
+  [3] planea-tu-web ................... "planeemos mi pagina"
+      Lluvia de ideas -> prioriza V1 / V2 / fuera
+      Produce: PRD.md -> y la IA implementa la V1 (paso 8)
+        |
+        |  PRD.md con la V1 completa (o el dueno decide publicar como esta)
+        v
+  [4] publica-tu-web .................. "publica mi pagina"
+      Revisa V1 pendiente -> export estatico -> build
+      -> wrangler login (un clic en Allow) -> deploy
+      Resultado: https://<negocio>.pages.dev + codigo QR
+        |
+        v
+      TU PAGINA EN INTERNET, en tu cuenta, gratis.
+      Para cambios futuros: pide el cambio y luego "publica mi pagina".
+```
+
+Cada flecha es un archivo real que la skill siguiente lee: `negocio.json` evita
+repetir preguntas, `DESIGN.md` da las decisiones visuales, `PRD.md` define que
+se construye y cuando esta listo.
+
 ## Requisitos minimos
 
 Una laptop con **Claude Code** o **Codex** funcionando. Eso es todo. La primera skill (revisa-tu-equipo) se encarga de verificar y preparar lo demas.

@@ -207,7 +207,9 @@ de 1.4:1, que es muy bajo para leer. Te propongo oscurecerlo a #B8860B
 - La de cuerpo es legible a 16px en móvil.
 - Son complementarias (serif + sans, o dos sans de carácter distinto).
 
-**Dirección visual.** Sigue estos principios de buen diseño:
+**Dirección visual.** Si la skill `taste-skill` (design-taste-frontend) está
+instalada junto a esta, léela y aplica sus reglas al proponer la dirección.
+Además, sigue estos principios de buen diseño:
 - *Grounding*: la dirección visual nace del tipo de negocio real
   (restaurante, salón, contratista). Los materiales e instrumentos
   del negocio inspiran las decisiones.

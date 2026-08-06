@@ -117,7 +117,7 @@ Una vez creado el proyecto, guarda las respuestas de la entrevista en `<slug>/ne
 
 ## Paso 3 — Dirección estética
 
-La página debe verse única para este negocio. Antes de escribir código, define un mini sistema de diseño basado en las respuestas de la entrevista.
+La página debe verse única para este negocio. Antes de escribir código, define un mini sistema de diseño basado en las respuestas de la entrevista. Si la skill `taste-skill` (design-taste-frontend) está instalada junto a esta, léela y aplica sus reglas anti-plantilla mientras diseñas y construyes — está en inglés porque es material técnico para ti, no para el dueño.
 
 ### Paleta (4-5 colores en OKLCH para shadcn)
 
