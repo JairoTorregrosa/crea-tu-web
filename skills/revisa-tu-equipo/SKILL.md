@@ -1,6 +1,6 @@
 ---
 name: revisa-tu-equipo
-description: "Diagnostica y repara el equipo del asistente antes de construir su página web. Verifica Node.js, npm, conexión a internet, que el agente CLI esté funcionando, y guía la creación de una cuenta gratuita de Cloudflare. Usa esta skill SIEMPRE que el usuario diga 'revisa mi equipo', 'prepara mi equipo', '¿tengo todo lo necesario?', 'antes de empezar', 'verificar requisitos', 'setup', '¿mi laptop está lista?', o cualquier variante que indique que quiere confirmar que su entorno está listo para el taller. Es el paso 0 obligatorio -- debe ejecutarse antes de cualquier otra skill del kit crea-tu-web."
+description: "Diagnostica y repara el equipo del asistente antes de construir su página web. Primero detecta DÓNDE corre: en una laptop con terminal verifica Node.js, npm, internet y el agente CLI; en la app o el celular (ChatGPT Work web/móvil, Claude en claude.ai o Cowork) salta lo del PC y verifica solo cuentas y conectores (GitHub, Cloudflare). Usa esta skill SIEMPRE que el usuario diga 'revisa mi equipo', 'prepara mi equipo', '¿tengo todo lo necesario?', 'antes de empezar', 'verificar requisitos', 'setup', '¿mi laptop está lista?', o cualquier variante que indique que quiere confirmar que su entorno está listo para el taller. Es el paso 0 obligatorio -- debe ejecutarse antes de cualquier otra skill del kit crea-tu-web."
 ---
 
 # Revisa tu equipo
@@ -9,13 +9,14 @@ description: "Diagnostica y repara el equipo del asistente antes de construir su
 
 El usuario es un pequeño empresario hispanohablante sin experiencia técnica.
 Está en un taller presencial de 2 horas donde construirá y publicará su
-página web desde cero. Este es el **paso 0** del kit de 5 skills:
+página web desde cero. Este es el **paso 0** del kit de 6 skills:
 
 1. **revisa-tu-equipo** (esta skill)
 2. crea-tu-web
 3. diseña-tu-marca
 4. planea-tu-web
 5. publica-tu-web
+6. taste-skill (apoyo de diseño; la consulta la IA, no el usuario)
 
 **Éxito** significa que al terminar esta skill el equipo tiene Node.js,
 npm, conexión a internet confirmada contra los servicios reales, el agente
@@ -36,12 +37,53 @@ simplemente lo confirma.
 
 ## Procedimiento
 
-Ejecuta los pasos en este orden exacto. No saltes ninguno. Si un paso falla
-y no puedes repararlo automáticamente, detente y reporta al usuario
-exactamente qué falta y cuál es la acción que debe tomar. No continúes en
-silencio porque una falla silenciada aquí reaparece después como un error
-inexplicable a mitad del taller, lejos del punto donde se originó, y el
-usuario no tendrá forma de diagnosticarlo.
+Ejecuta los pasos en este orden exacto y no saltes ninguno, salvo el salto
+que indique el Paso 0. Si un paso falla y no puedes repararlo
+automáticamente, detente y reporta al usuario exactamente qué falta y cuál
+es la acción que debe tomar. No continúes en silencio porque una falla
+silenciada aquí reaparece después como un error inexplicable a mitad del
+taller, lejos del punto donde se originó, y el usuario no tendrá forma de
+diagnosticarlo.
+
+### Paso 0 — ¿Dónde estás corriendo?
+
+Antes de revisar nada, determina el MODO. Hay dos:
+
+**Modo app/nube** — el usuario trabaja desde la app de ChatGPT (modo Work,
+web o celular) o de Claude (claude.ai, Cowork, o la app del celular), y tú
+corres en un sandbox en la nube, no en su computadora. Señales: tus rutas
+son tipo `/root` o `/workspace`; no tienes acceso al hardware del usuario;
+el usuario menciona que está en el celular o "en la app".
+
+**Modo PC/terminal** — tú eres Claude Code o Codex CLI corriendo en la
+laptop del usuario.
+
+Si las señales no bastan para decidir, haz UNA sola pregunta:
+
+> "¿Estás trabajando desde una laptop con la terminal (Claude Code o
+> Codex), o desde la app de ChatGPT o Claude — por ejemplo en tu celular?"
+
+**Si es modo app/nube: SALTA los Pasos 1 a 5.** No revises Node.js, npm ni
+nada del PC — la construcción corre en la nube y de eso se encarga la
+plataforma; revisar el sandbox confundiría al usuario con datos de una
+máquina que no es la suya. Lo que sí importa en este modo son las cuentas
+y los conectores:
+
+1. **Cuenta de GitHub.** Pregunta: "¿Ya tienes cuenta en github.com?" Si
+   no, guíalo: github.com → botón verde "Sign up" → correo, contraseña,
+   nombre de usuario (ojo: es público; mejor el nombre del negocio que un
+   apodo) → código que llega al correo.
+2. **Conector de GitHub autorizado**, según su app:
+   - **ChatGPT:** Settings → **Connectors** → GitHub → autorizar.
+   - **Claude:** entrar a **claude.ai/code** → conectar GitHub (instala la
+     app de Claude y autoriza).
+3. **Cuenta de Cloudflare** — igual que el Paso 6 de abajo.
+
+Con esas tres cosas listas, ve directo al Resumen final (variante
+app/nube). En este modo el usuario NO necesita computadora: el celular o
+la app bastan.
+
+**Si es modo PC/terminal: continúa con el Paso 1.**
 
 ### Paso 1 — Detectar sistema operativo y agente
 
@@ -278,7 +320,9 @@ Espera confirmación del usuario antes de continuar.
 ## Resumen final
 
 Cuando todos los pasos estén completos, muestra un resumen con este formato
-exacto:
+exacto.
+
+**Variante PC/terminal:**
 
 > **Resultado de la revisión:**
 >
@@ -290,6 +334,18 @@ exacto:
 > ✅ Cuenta Cloudflare: **creada**
 >
 > **✅ Tu equipo está listo para el taller. ¡Vamos a crear tu página web!**
+
+**Variante app/nube (tras el salto del Paso 0):**
+
+> **Resultado de la revisión:**
+>
+> ✅ Trabajas desde: **la app de [ChatGPT/Claude][, en tu celular]** — no
+>    necesitas computadora
+> ✅ Cuenta de GitHub: **lista**
+> ✅ Conector de GitHub: **autorizado**
+> ✅ Cuenta Cloudflare: **creada**
+>
+> **✅ Todo listo. ¡Vamos a crear tu página web!**
 
 Si algún paso quedó pendiente, sustituye el checkmark por lo que falta
 y la acción exacta. Por ejemplo:

@@ -76,8 +76,10 @@ Las primeras 5 se usan en este orden. Cada una guia a la IA paso a paso para que
 
 ```text
   [0] revisa-tu-equipo ................. "revisa mi equipo"
-      Deja listo: Node.js + npm + internet + agente CLI
-      + cuenta de Cloudflare (la usa el paso 4)
+      Detecta donde corres. En laptop: Node.js + npm +
+      internet + agente CLI + cuenta de Cloudflare.
+      En la app o el celular (ChatGPT Work / Claude):
+      salta lo del PC y verifica solo cuentas y conectores.
         |
         v
   [1] crea-tu-web ...................... "crea mi pagina"
