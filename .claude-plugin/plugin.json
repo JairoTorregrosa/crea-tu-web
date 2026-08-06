@@ -1,0 +1,19 @@
+{
+  "name": "crea-tu-web",
+  "description": "Kit del taller 'Crea tu Web con IA' (HAP, Montrose CO): 6 skills en espanol para que un pequeno empresario cree, disene y publique la pagina web de su negocio en Cloudflare Pages, guiado por la IA y sin saber programar.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Jairo Torregrosa",
+    "url": "https://github.com/JairoTorregrosa"
+  },
+  "homepage": "https://github.com/JairoTorregrosa/crea-tu-web",
+  "repository": "https://github.com/JairoTorregrosa/crea-tu-web",
+  "keywords": [
+    "landing-page",
+    "small-business",
+    "spanish",
+    "cloudflare-pages",
+    "taller",
+    "no-code"
+  ]
+}

@@ -4,9 +4,26 @@ Kit de skills para construir y publicar la pagina web de tu negocio con ayuda de
 
 ---
 
-## Prompt de instalacion
+## Instalacion en Claude Code (recomendada: 2 comandos)
 
-Copia el bloque completo y pegalo en Claude Code o Codex. La IA hara todo por ti.
+Este repositorio es un plugin marketplace de Claude Code. Dentro de Claude Code escribe:
+
+```text
+/plugin marketplace add JairoTorregrosa/crea-tu-web
+/plugin install crea-tu-web@crea-tu-web
+```
+
+Listo: las 6 skills quedan instaladas y con actualizaciones. Cuando el kit mejore,
+actualizas con `/plugin marketplace update crea-tu-web` y `/plugin update crea-tu-web`.
+Las skills del plugin tambien se pueden invocar con su nombre completo, por ejemplo
+`/crea-tu-web:publica-tu-web`.
+
+## Instalacion en Codex (prompt de instalacion)
+
+Codex todavia no permite marketplaces de terceros (sus plugins vienen de un registro
+curado por OpenAI), asi que en Codex se instala copiando las skills. Copia el bloque
+completo y pegalo en Codex. La IA hara todo por ti. Este mismo bloque tambien funciona
+en Claude Code si prefieres no usar el plugin.
 
 ```text
 Eres mi asistente de instalacion. Necesito que instales las skills del taller "Crea Tu Web".

@@ -1,0 +1,21 @@
+{
+  "name": "crea-tu-web",
+  "owner": {
+    "name": "Jairo Torregrosa",
+    "url": "https://github.com/JairoTorregrosa"
+  },
+  "metadata": {
+    "description": "Marketplace del taller 'Crea tu Web con IA' del Hispanic Affairs Project (Montrose, CO).",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "crea-tu-web",
+      "source": "./",
+      "description": "6 skills en espanol para crear y publicar la pagina web de tu negocio con IA: revisa-tu-equipo, crea-tu-web, disena-tu-marca, planea-tu-web, publica-tu-web (Cloudflare Pages) y taste-skill.",
+      "version": "1.0.0",
+      "category": "productivity",
+      "keywords": ["landing-page", "small-business", "spanish", "cloudflare-pages"]
+    }
+  ]
+}
